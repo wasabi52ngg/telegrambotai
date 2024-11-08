@@ -189,9 +189,8 @@ async def start(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text(
             "Данные бот работает для вас абсолютно бесплатно. Пожалуйста, подпишитесь на один из предложенных каналов, который может быть вам интересен и продолжите использование бота.\n\n"
             "Ссылки на каналы:\n"
-            "1. [Канал про психологию](https://t.me/psikholog_onlajn_besplatno_chat)"
-            "2. [Психолог, работа с тревогой ](https://t.me/juliakoyash)"
-            ,
+            "1. [Канал про психологию](https://t.me/psikholog_onlajn_besplatno_chat)\n"
+            "2. [Психолог, работа с тревогой](https://t.me/juliakoyash)\n",
             parse_mode='Markdown'
         )
         return
@@ -726,7 +725,7 @@ def main() -> None:
     application.add_handler(feedback_handler)
 
     # Обработчики нажатий кнопок
-    application.add_handler(CallbackQueryHandler(button_click, pattern='^(tarot|astrology|numerology|self_development_coach|fun_tarot|psychologist|career_consultant)$'))
+    application.add_handler(CallbackQueryHandler(button_click, pattern='^(tarot|astrology|numerology|self_development_coach|psychologist|career_consultant)$'))
     application.add_handler(CallbackQueryHandler(handle_psychologist_choice, pattern='^(cbt|psychodynamic|gestalt|unsure)$'))
 
     # Обработчики сообщений пользователя
