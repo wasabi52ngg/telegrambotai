@@ -1,0 +1,5 @@
+.env
+venv
+user_data.json
+user_chat_history.json
+
