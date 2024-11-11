@@ -414,51 +414,12 @@ async def handle_message(update: Update, context: CallbackContext, recognized_te
         else:
             prompt = f"Представь, что ты гадалка на картах ТАРО. Выложи 3 карты и дай предсказание на вопрос: {message_text}. Давай меньше воды, теории и больше интерпретации. Рассказывай так, чтобы читателю было интересно и создавалось впечатление, что человек на реальном приеме у гадалки"
         waiting_message = await update.message.reply_text("🔮Достаю карты...🔮", disable_notification=True)
-    elif role == 'astrology':
-        if 'date_of_birth' not in context.user_data:
-            if not await handle_date_of_birth(update, context):
-                return
-            await update.message.reply_text("Введите время рождения (в формате ЧЧ:ММ):")
-            return
-        if 'time_of_birth' not in context.user_data:
-            if not await handle_time_of_birth(update, context):
-                return
-            await update.message.reply_text("Введите место рождения:")
-            return
-        if 'place_of_birth' not in context.user_data:
-            await handle_place_of_birth(update, context)
-            return
-        if chat_history:
-            prompt = f"Ты - астролог. Вот история общения:\n{chat_history_text}\nПользователь: {message_text}"
-        else:
-            if 'date_of_birth' not in context.user_data:
-                if not await handle_date_of_birth(update, context):
-                    return
-            prompt = f"Представь, что ты астролог. Моя дата рождения {context.user_data['date_of_birth']}, время рождения {context.user_data['time_of_birth']}, место рождения {context.user_data['place_of_birth']}. Дай мне ответ как астролог на основе моей натальной карты на мой вопрос: {message_text}. Общайся так, чтобы казалось, что человек на реальном приеме у профессионального астролога. В ответах давай меньше воды и больше полезной информации и интерпретаций. Не говори о том, что ты не можешь рассчитать что-то и тем более не нужно рекомендовать посетить какие-то сайты."
-        waiting_message = await update.message.reply_text("🌘Составляю карту планет...🌘", disable_notification=True)
-    elif role == 'numerology':
-        if 'date_of_birth' not in context.user_data:
-            if not await handle_date_of_birth(update, context):
-                return
-        else:
-            await update.message.reply_text("Введите ваш вопрос для нумеролога:")
-        if chat_history:
-            prompt = f"Ты - Нумеролог. Вот история общения:\n{chat_history_text}\nПользователь: {message_text}"
-        else:
-            prompt = f"Представь, что ты нумеролог. Я пришел к тебе на прием. Моя дата рождения {context.user_data['date_of_birth']}. Я впервые у нумеролога, поэтому возьми инициативу по диалогу на себя. Дай прогноз на мой вопрос: {message_text}. Или предложи мне несколько популярных вопросов, с которых мы можем начать.В ответах давай меньше воды и вступительных слов, а больше полезной информации и интерпритаций."
-        waiting_message = await update.message.reply_text("🔢Считаю цифры...🔢", disable_notification=True)
     elif role == 'self_development_coach':
         if chat_history:
             prompt = f"Ты - Коуч по саморазвитию. Вот история общения:\n{chat_history_text}\nПользователь: {message_text}"
         else:
             prompt = f"Представь, что ты коуч по саморазвитию. Ответь на вопрос: {message_text}."
         waiting_message = await update.message.reply_text("💪Составляю ответ...💪", disable_notification=True)
-    elif role == 'fun_tarot':
-        if chat_history:
-            prompt = f"Ты - невоспитанная хабалистая гадалка на картах ТАРО. Вот история общения:\n{chat_history_text}\nПользователь: {message_text}"
-        else:
-            prompt = f"Представь, что ты гадалка на картах ТАРО. Выложи карты и дай предсказание на вопрос: {message_text}. Не пытайся быть осторожной и интеллигентной в ответах, используй элементы юмора, непристойности, пикантности или интимные подробности, словно ты хабалка."
-        waiting_message = await update.message.reply_text("🔮Достаю карты...🔮", disable_notification=True)
     elif role == 'psychologist':
         method = context.user_data.get('psychology_method')
         if not method:
@@ -516,20 +477,13 @@ def send_openai_request(prompt: str, max_tokens: int = MAX_TOKENS) -> str:
     add_or_update_user(user_data, user_id, username, response_tokens_used)
 
 #Обработка команд
-async def astrology_command(update: Update, context: CallbackContext) -> None:
-    await handle_role_selection(update, context, 'astrology')
 
 async def tarot_command(update: Update, context: CallbackContext) -> None:
     await handle_role_selection(update, context, 'tarot')
 
-async def numerology_command(update: Update, context: CallbackContext) -> None:
-    await handle_role_selection(update, context, 'numerology')
-
 async def self_development_coach_command(update: Update, context: CallbackContext) -> None:
     await handle_role_selection(update, context, 'self_development_coach')
 
-async def fun_tarot_command(update: Update, context: CallbackContext) -> None:
-    await handle_role_selection(update, context, 'fun_tarot')
 
 async def psychologist_command(update: Update, context: CallbackContext) -> None:
     await handle_role_selection(update, context, 'psychologist')
@@ -542,7 +496,6 @@ async def handle_role_selection(update: Update, context: CallbackContext, choice
     context.user_data['role'] = choice
     if choice == "tarot":
         await update.message.reply_text(
-            "🟨 /tarot\n\n"
             "✨ Добро пожаловать в мир ТАРО! ✨\n\n"
             "🃏 Карты Таро могут помочь вам раскрыть скрытые аспекты вашей жизни, получить ценные советы и посмотреть на ситуацию с новой стороны.\n\n"
             "1. Задайте любой вопрос, который у вас на сердце — это может быть вопрос о любви, карьере, здоровье или будущем.\n"
@@ -553,43 +506,6 @@ async def handle_role_selection(update: Update, context: CallbackContext, choice
             "- Как бы я хотела выстроить эти отношения?\n\n"
             "Не стесняйтесь, задайте свой вопрос, и пусть карты ТАРО откроют вам свою мудрость!"
         )
-    elif choice == "astrology":
-        if 'date_of_birth' in context.user_data:
-            if 'time_of_birth' in context.user_data:
-                if 'place_of_birth' in context.user_data:
-                    await update.message.reply_text("Все данные уже введены. Введите ваш вопрос для астролога:")
-                else:
-                    await update.message.reply_text("Введите место рождения в свободной форме (Например: Казань или Выборг, Ленинградская обл. и тд):")
-            else:
-                await update.message.reply_text("Введите время рождения в формате ЧЧ:ММ (например 07:20 или 19:00):")
-        else:
-            await update.message.reply_text(
-                "🟨 Астролог\n\n"
-                "Добро пожаловать в мир астрологии! ✨\n\n"
-                "Как астролог, я помогу вам понять, как звезды и планеты могут влиять на вашу жизнь.\n\n"
-                "Мне понадобятся данные о вашей дате, времени и месте рождения, чтобы я мог составить ваш персональный гороскоп и поделиться с вами удивительными астрологическими прогнозами.\n\n"
-                "Вот несколько примеров вопросов, которые вы можете задать:\n"
-                "- Что говорит мой солнечный знак обо мне?\n"
-                "- Какие планеты влияют на мою карьеру и отношения?\n"
-                "- Как лунные фазы могут повлиять на мое настроение и энергию?\n\n"
-                "Но, возможно, у вас есть свой вопрос, который больше вас интересует. Жду вашего запроса и готов помочь вам раскрыть тайны вашего астрологического пути.\n\n"
-                "Введите вашу дату рождения в формате ДД.ММ.ГГГГ (Например: 01.01.1995):"
-            )
-    elif choice == "numerology":
-        if 'date_of_birth' in context.user_data:
-            await update.message.reply_text("Дата рождения уже введена. Введите ваш вопрос для нумеролога:")
-        else:
-            await update.message.reply_text(
-                "🟨 Нумеролог\n\n"
-                "Добро пожаловать в мир нумерологии! 🌟\n\n"
-                "Как нумеролог, я помогу вам раскрыть тайны чисел, которые могут пролить свет на вашу личность, судьбу и жизненные пути.\n\n"
-                "Мне понадобится дата вашего рождения, чтобы я мог провести анализ и поделиться с вами удивительными инсайтами о вашем жизненном пути и предназначении.\n\n"
-                "Не стесняйтесь задавать вопросы о том, как числа могут влиять на вашу жизнь и как использовать эту информацию для личного роста и развития. Вот несколько примеров вопросов, которые вы можете задать:\n"
-                "- Какое значение имеет мое число судьбы?\n"
-                "- Как числа влияют на мою карьеру и личные отношения?\n\n"
-                "Или можете задать любой другой вопрос, а я постараюсь помочь вам узнать больше о себе через призму чисел.\n\n"
-                "Для продолжения введите свою дату рождения в формате ДД.ММ.ГГГГ (например: 01.01.1995):"
-            )
     elif choice == "self_development_coach":
         prompt = "Представь, что ты коуч по саморазвитию, а я у тебя на приеме. Я впервые на приеме у коуча по саморазвитию, поэтому возьми инициативу по диалогу в свои руки."
         try:
@@ -607,7 +523,6 @@ async def handle_role_selection(update: Update, context: CallbackContext, choice
         await update.message.reply_text("Вы выбрали роль психолога. Выберите методику терапии или нажмите 'не разбираюсь':", reply_markup=reply_markup)
     elif choice == "career_consultant":
         await update.message.reply_text(
-            "🟨 Карьерный консультант\n\n"
             "💼 Добро пожаловать к Карьерному консультанту!\n\n"
             "Я могу помочь вам с профессиональными советами, планированием карьеры и достижением ваших карьерных целей.\n\n"
             "❓ **Как это работает:**\n"
@@ -679,35 +594,6 @@ async def cancel_feedback(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text("Отмена отправки отзыва.")
     return ConversationHandler.END
 
-async def clear_birth_data_command(update: Update, context: CallbackContext) -> None:
-    user_id = update.message.from_user.id
-    user_data = load_user_data()
-    user_found = False
-    for user in user_data:
-        if user['user_id'] == user_id:
-            user.pop('date_of_birth', None)
-            user.pop('time_of_birth', None)
-            user.pop('place_of_birth', None)
-            user_found = True
-            break
-
-    if user_found:
-        save_user_data(user_data)
-        context.user_data.pop('date_of_birth', None)
-        context.user_data.pop('time_of_birth', None)
-        context.user_data.pop('place_of_birth', None)
-
-        await update.message.reply_text("Ваши данные о рождении были удалены. Теперь вы можете ввести новые данные.")
-
-        # Проверяем текущую роль пользователя и автоматически вызываем нужную команду
-        current_role = context.user_data.get('role')
-        if current_role == 'astrology':
-            await astrology_command(update, context)
-        elif current_role == 'numerology':
-            await numerology_command(update, context)
-    else:
-        await update.message.reply_text("Ваши данные о рождении не найдены.")
-
 # Основная функция запуска бота
 def main() -> None:
     application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
@@ -715,15 +601,12 @@ def main() -> None:
 
     # Обработчики команд
     application.add_handler(CommandHandler('start', start))
-    application.add_handler(CommandHandler('astrology', astrology_command))
     application.add_handler(CommandHandler('tarot', tarot_command))
-    application.add_handler(CommandHandler('numerology', numerology_command))
     application.add_handler(CommandHandler('self_development_coach', self_development_coach_command))
     application.add_handler(CommandHandler('psychologist', psychologist_command))
     application.add_handler(CommandHandler('career_consultant', career_consultant_command))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("unsubscribe", unsubscribe))
-    application.add_handler(CommandHandler("clear_birth_data", clear_birth_data_command))
 
     feedback_handler = ConversationHandler(
         entry_points=[CommandHandler('feedback', feedback_command)],
