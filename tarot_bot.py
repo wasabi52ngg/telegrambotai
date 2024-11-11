@@ -199,8 +199,6 @@ async def start(update: Update, context: CallbackContext) -> None:
     keyboard = [
         [InlineKeyboardButton("🧠 Психолог", callback_data="psychologist")],
         [InlineKeyboardButton("💼 Карьерный консультант", callback_data="career_consultant")],
-        [InlineKeyboardButton("🔮 Астролог", callback_data="astrology")],
-        [InlineKeyboardButton("🔢 Нумеролог", callback_data="numerology")],
         [InlineKeyboardButton("🚀 Коуч по саморазвитию", callback_data="self_development_coach")],
         [InlineKeyboardButton("🃏 Таро", callback_data="tarot")],
     ]
