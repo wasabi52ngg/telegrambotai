@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="598c6909-f308-41d9-a333-0c771a4dbdd6" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="SQL File" />
+        <option value="package.json" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/user_data.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/venv/Lib/site-packages/telegram/_user.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2ihveVOxoqkzKeZDUtA7S4S4SvI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.tarot_bot.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "/home/wasabi/Documents/Python/BasicCodes",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="C:\Users\User\PycharmProjects\pythontelegram" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\PycharmProjects\pythontelegram" />
+      <recent name="C:\Users\User\PycharmProjects\pythontelegram\.venv" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="tarot_bot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pythontelegram" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tarot_bot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.tarot_bot" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-d7ad00fb9fc3-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23726.102" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="598c6909-f308-41d9-a333-0c771a4dbdd6" name="Changes" comment="" />
+      <created>1719955721351</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719955721351</updated>
+      <workItem from="1719955740784" duration="55930000" />
+      <workItem from="1720268308175" duration="31733000" />
+      <workItem from="1720448968836" duration="22781000" />
+      <workItem from="1720514326625" duration="17027000" />
+      <workItem from="1720601156113" duration="871000" />
+      <workItem from="1720610248967" duration="14504000" />
+      <workItem from="1720685095981" duration="31466000" />
+      <workItem from="1720726350938" duration="197000" />
+      <workItem from="1720726565296" duration="45750000" />
+      <workItem from="1721062522784" duration="9381000" />
+      <workItem from="1721117315527" duration="7437000" />
+      <workItem from="1721147408197" duration="18098000" />
+      <workItem from="1721218985282" duration="53337000" />
+      <workItem from="1721842771399" duration="3200000" />
+      <workItem from="1721853618044" duration="460000" />
+      <workItem from="1721854087006" duration="64000" />
+      <workItem from="1721854168831" duration="4886000" />
+      <workItem from="1721940913189" duration="6912000" />
+      <workItem from="1722029763616" duration="16786000" />
+      <workItem from="1722351947044" duration="16688000" />
+      <workItem from="1722801857833" duration="390000" />
+      <workItem from="1722802292041" duration="20075000" />
+      <workItem from="1723116505749" duration="4959000" />
+      <workItem from="1723214146431" duration="14859000" />
+      <workItem from="1723472702622" duration="5374000" />
+      <workItem from="1723552240123" duration="3746000" />
+      <workItem from="1723615196492" duration="10036000" />
+      <workItem from="1723727131743" duration="1020000" />
+      <workItem from="1723737673025" duration="743000" />
+      <workItem from="1723738428584" duration="24000" />
+      <workItem from="1723738475877" duration="169000" />
+      <workItem from="1723738663419" duration="94000" />
+      <workItem from="1723738776318" duration="187000" />
+      <workItem from="1723738985905" duration="51000" />
+      <workItem from="1723739125404" duration="317000" />
+      <workItem from="1723739466646" duration="2859000" />
+      <workItem from="1723743982823" duration="889000" />
+      <workItem from="1723744898255" duration="1944000" />
+      <workItem from="1723746859163" duration="3990000" />
+      <workItem from="1723843859354" duration="1299000" />
+      <workItem from="1723972792991" duration="1511000" />
+      <workItem from="1724052523106" duration="5373000" />
+      <workItem from="1724136804908" duration="4375000" />
+      <workItem from="1724183083671" duration="1376000" />
+      <workItem from="1724225366056" duration="3108000" />
+      <workItem from="1724276607221" duration="1286000" />
+      <workItem from="1724305212932" duration="6161000" />
+      <workItem from="1724393548580" duration="106000" />
+      <workItem from="1724393665600" duration="47000" />
+      <workItem from="1724393714034" duration="7214000" />
+      <workItem from="1724481203562" duration="3754000" />
+      <workItem from="1724526983061" duration="1258000" />
+      <workItem from="1724577928518" duration="3637000" />
+      <workItem from="1724614252287" duration="2007000" />
+      <workItem from="1724655630463" duration="3692000" />
+      <workItem from="1724707191906" duration="1256000" />
+      <workItem from="1724748760305" duration="1837000" />
+      <workItem from="1724782359784" duration="7497000" />
+      <workItem from="1724862701775" duration="3358000" />
+      <workItem from="1724886252731" duration="1919000" />
+      <workItem from="1724932481866" duration="5332000" />
+      <workItem from="1724966169739" duration="4737000" />
+      <workItem from="1725035181013" duration="3715000" />
+      <workItem from="1725099146787" duration="3603000" />
+      <workItem from="1725185877702" duration="8016000" />
+      <workItem from="1725288419852" duration="1904000" />
+      <workItem from="1725312120389" duration="6685000" />
+      <workItem from="1725484001346" duration="3972000" />
+      <workItem from="1725566267050" duration="1039000" />
+      <workItem from="1725569879954" duration="2561000" />
+      <workItem from="1725630715731" duration="1204000" />
+      <workItem from="1725693274132" duration="647000" />
+      <workItem from="1725739469148" duration="1382000" />
+      <workItem from="1725797801502" duration="926000" />
+      <workItem from="1725830581403" duration="3652000" />
+      <workItem from="1725916392644" duration="1322000" />
+      <workItem from="1725976583316" duration="665000" />
+      <workItem from="1726006127145" duration="1257000" />
+      <workItem from="1726059131816" duration="1524000" />
+      <workItem from="1726085715973" duration="1393000" />
+      <workItem from="1726124093703" duration="753000" />
+      <workItem from="1726149620896" duration="2321000" />
+      <workItem from="1726171165918" duration="1247000" />
+      <workItem from="1726209308079" duration="646000" />
+      <workItem from="1726242780875" duration="998000" />
+      <workItem from="1726254874688" duration="1873000" />
+      <workItem from="1726258588571" duration="185000" />
+      <workItem from="1726258782986" duration="62000" />
+      <workItem from="1726258862050" duration="5205000" />
+      <workItem from="1726351108888" duration="907000" />
+      <workItem from="1726384127574" duration="81000" />
+      <workItem from="1726384215752" duration="2106000" />
+      <workItem from="1726434786769" duration="3306000" />
+      <workItem from="1726517017424" duration="2444000" />
+      <workItem from="1726610745139" duration="4318000" />
+      <workItem from="1726697379204" duration="3042000" />
+      <workItem from="1726782439095" duration="1219000" />
+      <workItem from="1726867451371" duration="638000" />
+      <workItem from="1726904644217" duration="4944000" />
+      <workItem from="1727165038085" duration="624000" />
+      <workItem from="1727389845741" duration="637000" />
+      <workItem from="1727433119292" duration="640000" />
+      <workItem from="1727538470934" duration="1885000" />
+      <workItem from="1727603964723" duration="2319000" />
+      <workItem from="1727690334500" duration="3928000" />
+      <workItem from="1727878182174" duration="648000" />
+      <workItem from="1727901580529" duration="1715000" />
+      <workItem from="1727970815876" duration="3288000" />
+      <workItem from="1728115027496" duration="2139000" />
+      <workItem from="1728159797433" duration="1877000" />
+      <workItem from="1728237135518" duration="3254000" />
+      <workItem from="1728290497718" duration="5124000" />
+      <workItem from="1728373132035" duration="5087000" />
+      <workItem from="1728459813979" duration="1683000" />
+      <workItem from="1728504583338" duration="1006000" />
+      <workItem from="1728654943206" duration="4265000" />
+      <workItem from="1728818988557" duration="1908000" />
+      <workItem from="1728853995553" duration="3648000" />
+      <workItem from="1728940026471" duration="7448000" />
+      <workItem from="1729110320351" duration="1997000" />
+      <workItem from="1729158078382" duration="10960000" />
+      <workItem from="1729352879012" duration="23218000" />
+      <workItem from="1730143885927" duration="8494000" />
+      <workItem from="1730366505893" duration="8388000" />
+      <workItem from="1730537964306" duration="712000" />
+      <workItem from="1730667307857" duration="25505000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/pythontelegram$tarot_bot.coverage" NAME="tarot_bot Coverage Results" MODIFIED="1730810704777" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
