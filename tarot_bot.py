@@ -85,6 +85,8 @@ def add_or_update_user(user_data, user_id, username, context: CallbackContext, t
                 user['place_of_birth'] = place_of_birth
             if 'subscribe' not in user:
                 user['subscribe'] = True
+            user['daily_requests'] = user.get('daily_requests', 0)
+            user['last_request_date'] = user.get('last_request_date', datetime.now().strftime('%d-%m-%Y'))
             user_found = True
             break
 
@@ -98,12 +100,14 @@ def add_or_update_user(user_data, user_id, username, context: CallbackContext, t
             'date_of_birth': date_of_birth,
             'time_of_birth': time_of_birth,
             'place_of_birth': place_of_birth,
-            'subscribe': True
+            'subscribe': True,
+            'daily_requests': 0,
+            'last_request_date': datetime.now().strftime('%d-%m-%Y')
         }
         user_data.append(new_user)
         context.application.create_task(notify_admin(context, f"Новый пользователь: {username} (ID: {user_id})"))
 
-    save_user_data(user_data) # Сохраняем все данные после любого изменения
+    save_user_data(user_data)  # Сохраняем все данные после любого изменения
 
 
 async def unsubscribe(update: Update, context: CallbackContext) -> None:
@@ -238,7 +242,7 @@ async def start(update: Update, context: CallbackContext) -> int:
         "2. Какие запросы обрабатывает: Этот бот предоставляет поддержку и советы на основе искусственного интеллекта и скорее предполагает повседневную помощь. Если вы столкнулись с серьёзной или кризисной ситуацией, пожалуйста, обратитесь за помощью к квалифицированному специалисту.\n\n"
         "3. Бот не заменит терапевтических услуг: Консультации, предлагаемые ботом, не могут заменить полноценную терапию или консультацию у специалиста.\n\n"
         "4. Точность ответов: Необходимо понимать, что бот может давать не всегда корректные или подходящие в вашем случае ответы. Мы напоминаем, что ответственность за использование рекомендаций лежит на пользователе.\n\n"
-        "5. Бесплатное использование ботом предполагает 3 запроса в день.\n\n"
+        "5. Бесплатное использование ботом предполагает 8 запроса в день.\n\n"
         "Если у вас возникнут вопросы или предложения, не стесняйтесь обращаться. Берегите себя!\n\n"
         "Нажмите кнопку ниже, чтобы подтвердить, что вам 18+ лет и вы согласны с условиями:",
         reply_markup=reply_markup
@@ -421,6 +425,22 @@ async def handle_message(update: Update, context: CallbackContext, recognized_te
     username = update.message.from_user.username
     user_data = load_user_data()
     tokens_used = count_tokens(message_text)
+
+    # Проверка ограничения запросов
+    for user in user_data:
+        if user['user_id'] == user_id:
+            today = datetime.now().strftime('%d-%m-%Y')
+            if user['last_request_date'] != today:
+                user['daily_requests'] = 0
+                user['last_request_date'] = today
+
+            if user['daily_requests'] >= 8:
+                await update.message.reply_text("Вы превысили лимит 8 запросов в день. Попробуйте завтра.")
+                return
+
+            user['daily_requests'] += 1
+            break
+
     add_or_update_user(user_data, user_id, username, context, tokens_used)
 
     # Загрузка истории чатов
