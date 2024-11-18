@@ -435,7 +435,7 @@ async def handle_message(update: Update, context: CallbackContext, recognized_te
                 user['last_request_date'] = today
 
             if user['daily_requests'] >= 5:
-                await update.message.reply_text("Вы превысили лимит 8 запросов в день. Попробуйте завтра.")
+                await update.message.reply_text("Вы превысили лимит 5 запросов в день. Попробуйте завтра.")
                 return
 
             user['daily_requests'] += 1
