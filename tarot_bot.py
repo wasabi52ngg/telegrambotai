@@ -16,6 +16,8 @@ import speech_recognition as sr
 from telegram import File
 import io
 from pydub import AudioSegment
+import re
+
 # ,@lunia_jul
 # Загрузка переменных из .env файла
 load_dotenv()
@@ -41,6 +43,33 @@ TEMPERATURE = float(os.getenv('TEMPERATURE'))
 
 #Состояния для разговора
 START, AGREE_TO_TERMS = range(2)
+
+
+
+def load_stop_words(file_path):
+    """Загружает стоп-слова из файла и возвращает их в виде множества."""
+    with open(file_path, 'r', encoding='utf-8') as file:
+        stop_words = {line.strip() for line in file}
+    return stop_words
+
+def create_stop_words_regex(stop_words):
+    """Создает регулярное выражение для поиска стоп-слов в сообщении."""
+    # Объединяем стоп-слова в одну строку, разделяя их символом "|" (или)
+    stop_words_pattern = '|'.join(map(re.escape, stop_words))
+    # Создаем регулярное выражение для поиска стоп-слов в любом месте сообщения
+    return re.compile(stop_words_pattern, re.IGNORECASE)
+
+def validate_message(message, stop_words_regex):
+    """Проверяет, содержит ли сообщение стоп-слова."""
+    # Ищем стоп-слова в сообщении
+    if stop_words_regex.search(message):
+        return False
+    return True
+
+stop_words_file = 'stop_words.txt'  # Путь к файлу со стоп-словами
+stop_words = load_stop_words(stop_words_file)
+stop_words_regex = create_stop_words_regex(stop_words)
+
 
 # Функция для загрузки данных из JSON-файла
 def load_user_data():
@@ -426,6 +455,17 @@ async def handle_message(update: Update, context: CallbackContext, recognized_te
     user_data = load_user_data()
     tokens_used = count_tokens(message_text)
 
+    # Проверка на наличие стоп-слов
+    if not validate_message(message_text, stop_words_regex):
+        await update.message.reply_text(
+            "Извините, я не могу отвечать на подобные вопросы. Пожалуйста, направьте ваши запросы в безопасное и конструктивное русло.")
+        return
+
+    addition_for_prompt = ("Анализируй каждый запрос на предмет содержания. Если запрос "
+                           "содержит неадекватные, аморальные, пошлые, агрессивные, деструктивные элементы, ответь "
+                           "следующим образом: 'Извините, я не могу отвечать на подобные вопросы. Пожалуйста, направьте "
+                           "ваши запросы в безопасное и конструктивное русло.'")
+
     # Проверка ограничения запросов
     for user in user_data:
         if user['user_id'] == user_id:
@@ -498,6 +538,7 @@ async def handle_message(update: Update, context: CallbackContext, recognized_te
         return
 
     try:
+        prompt += addition_for_prompt
         response = send_openai_request(prompt)
         await waiting_message.delete()
         await update.message.reply_text(response)
@@ -630,7 +671,7 @@ async def feedback_command(update: Update, context: CallbackContext) -> None:
 
 async def receive_feedback(update: Update, context: CallbackContext) -> None:
     user_feedback = update.message.text
-    admin_chat_id = '517173111'
+    admin_chat_id = ADMIN_CHAT_ID
 
     # Отправка обратной связи администратору
     await context.bot.send_message(
