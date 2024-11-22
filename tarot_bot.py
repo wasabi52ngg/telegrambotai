@@ -18,7 +18,6 @@ import io
 from pydub import AudioSegment
 import re
 
-# ,@lunia_jul
 # Загрузка переменных из .env файла
 load_dotenv()
 
@@ -538,7 +537,7 @@ async def handle_message(update: Update, context: CallbackContext, recognized_te
         return
 
     try:
-        prompt += addition_for_prompt
+        # prompt += addition_for_prompt
         response = send_openai_request(prompt)
         await waiting_message.delete()
         await update.message.reply_text(response)
