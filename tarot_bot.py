@@ -30,7 +30,7 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 PROXY_API_KEY = os.getenv('PROXY_API_KEY')
 PROXY_API_URL = os.getenv('PROXY_API_URL')
 USER_DATA_FILE = 'user_data.json'
-ADMIN_CHAT_ID = os.getenv('ADMIN_CHAT_ID')
+ADMIN_CHAT_ID = list(map(int, os.getenv('ADMIN_CHAT_ID', '').split(',')))
 CHAT_HISTORY_FILE = 'user_chat_history.json'
 CHANNEL_IDS = os.getenv('CHANNEL_IDS').split(',')
 
@@ -87,7 +87,9 @@ def save_user_data(user_data):
 
 # Функция для отправки уведомлений администратору
 async def notify_admin(context: CallbackContext, message: str):
-    await context.bot.send_message(chat_id=ADMIN_CHAT_ID, text=message)
+    for admin_id in ADMIN_CHAT_ID:
+        await context.bot.send_message(chat_id=admin_id, text=message)
+
 
 def load_chat_history(user_id, limit=10):
     if os.path.exists(CHAT_HISTORY_FILE):
@@ -670,14 +672,15 @@ async def feedback_command(update: Update, context: CallbackContext) -> None:
 
 async def receive_feedback(update: Update, context: CallbackContext) -> None:
     user_feedback = update.message.text
-    admin_chat_id = ADMIN_CHAT_ID
 
-    # Отправка обратной связи администратору
-    await context.bot.send_message(
-        chat_id=admin_chat_id,
-        text=f"Новая обратная связь от пользователя {update.message.from_user.username} ({update.message.from_user.id}):\n\n{user_feedback}"
-    )
-    await update.message.reply_text("Спасибо за ваш отзыв! Он был отправлен администратору.")
+    # Отправка обратной связи всем администраторам
+    for admin_id in ADMIN_CHAT_ID:
+        await context.bot.send_message(
+            chat_id=admin_id,
+            text=f"Новая обратная связь от пользователя {update.message.from_user.username} ({update.message.from_user.id}):\n\n{user_feedback}"
+        )
+
+    await update.message.reply_text("Спасибо за ваш отзыв! Он был отправлен администраторам.")
     return ConversationHandler.END
 
 async def cancel_feedback(update: Update, context: CallbackContext) -> None:
