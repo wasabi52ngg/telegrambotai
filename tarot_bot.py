@@ -48,15 +48,15 @@ START, AGREE_TO_TERMS = range(2)
 ENCRYPTION_KEY = Fernet.generate_key()
 cipher_suite = Fernet(ENCRYPTION_KEY)
 
-def encrypt_data(data: str) -> str:
-    """Шифрует данные."""
-    encrypted_data = cipher_suite.encrypt(data.encode())
-    return encrypted_data.decode()
+# def encrypt_data(data: str) -> str:
+#     """Шифрует данные."""
+#     encrypted_data = cipher_suite.encrypt(data.encode())
+#     return encrypted_data.decode()
 
-def decrypt_data(encrypted_data: str) -> str:
-    """Дешифрует данные."""
-    decrypted_data = cipher_suite.decrypt(encrypted_data.encode())
-    return decrypted_data.decode()
+# def decrypt_data(encrypted_data: str) -> str:
+#     """Дешифрует данные."""
+#     decrypted_data = cipher_suite.decrypt(encrypted_data.encode())
+#     return decrypted_data.decode()
 
 def load_stop_words(file_path):
     """Загружает стоп-слова из файла и возвращает их в виде множества."""
@@ -88,19 +88,19 @@ def load_user_data():
     if os.path.exists(USER_DATA_FILE):
         with open(USER_DATA_FILE, 'r', encoding='utf-8') as file:
             user_data = [json.loads(line) for line in file]
-            for user in user_data:
-                if 'user_id' in user and 'username' in user:
-                    user['user_id'] = decrypt_data(user['user_id'])
-                    user['username'] = decrypt_data(user['username'])
+            # for user in user_data:
+            #     if 'user_id' in user and 'username' in user:
+            #         user['user_id'] = decrypt_data(user['user_id'])
+            #         user['username'] = decrypt_data(user['username'])
             return user_data
     return []
 
 def save_user_data(user_data):
     with open(USER_DATA_FILE, 'w', encoding='utf-8') as file:
         for user in user_data:
-            if 'user_id' in user and 'username' in user:
-                user['user_id'] = encrypt_data(user['user_id'])
-                user['username'] = encrypt_data(user['username'])
+            # if 'user_id' in user and 'username' in user:
+            #     user['user_id'] = encrypt_data(user['user_id'])
+            #     user['username'] = encrypt_data(user['username'])
             json.dump(user, file, ensure_ascii=False)
             file.write('\n')
 
@@ -123,8 +123,10 @@ def add_or_update_user(user_data, user_id, username, context: CallbackContext, t
                        time_of_birth=None, place_of_birth=None):
     user_found = False
     for user in user_data:
-        if isinstance(user, dict) and decrypt_data(user['user_id']) == user_id:
-            user['username'] = encrypt_data(username)
+        # if isinstance(user, dict) and decrypt_data(user['user_id']) == user_id:
+        if isinstance(user, dict) and user['user_id'] == user_id:
+            # user['username'] = encrypt_data(username)
+            user['username'] = username
             user['last_active'] = datetime.now().strftime('%d-%m-%Y')
             user['tokens_used'] = user.get('tokens_used', 0) + tokens_used
             if date_of_birth:
@@ -142,8 +144,10 @@ def add_or_update_user(user_data, user_id, username, context: CallbackContext, t
 
     if not user_found:
         new_user = {
-            'user_id': encrypt_data(user_id),
-            'username': encrypt_data(username),
+            # 'user_id': encrypt_data(user_id),
+            # 'username': encrypt_data(username),
+            'user_id': user_id,
+            'username': username,
             'registration_date': datetime.now().strftime('%d-%m-%Y'),  # Дата регистрации
             'last_active': datetime.now().strftime('%d-%m-%Y'),
             'tokens_used': tokens_used,
