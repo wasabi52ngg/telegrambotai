@@ -17,6 +17,7 @@ from telegram import File
 import io
 from pydub import AudioSegment
 import re
+from cryptography.fernet import Fernet
 
 # Загрузка переменных из .env файла
 load_dotenv()
@@ -43,7 +44,19 @@ TEMPERATURE = float(os.getenv('TEMPERATURE'))
 #Состояния для разговора
 START, AGREE_TO_TERMS = range(2)
 
+# Генерация ключа шифрования (должен быть сохранен в безопасном месте)
+ENCRYPTION_KEY = Fernet.generate_key()
+cipher_suite = Fernet(ENCRYPTION_KEY)
 
+def encrypt_data(data: str) -> str:
+    """Шифрует данные."""
+    encrypted_data = cipher_suite.encrypt(data.encode())
+    return encrypted_data.decode()
+
+def decrypt_data(encrypted_data: str) -> str:
+    """Дешифрует данные."""
+    decrypted_data = cipher_suite.decrypt(encrypted_data.encode())
+    return decrypted_data.decode()
 
 def load_stop_words(file_path):
     """Загружает стоп-слова из файла и возвращает их в виде множества."""
@@ -74,13 +87,20 @@ stop_words_regex = create_stop_words_regex(stop_words)
 def load_user_data():
     if os.path.exists(USER_DATA_FILE):
         with open(USER_DATA_FILE, 'r', encoding='utf-8') as file:
-            return [json.loads(line) for line in file]
+            user_data = [json.loads(line) for line in file]
+            for user in user_data:
+                if 'user_id' in user and 'username' in user:
+                    user['user_id'] = decrypt_data(user['user_id'])
+                    user['username'] = decrypt_data(user['username'])
+            return user_data
     return []
 
-# Функция для сохранения всех данных в JSON-файл
 def save_user_data(user_data):
     with open(USER_DATA_FILE, 'w', encoding='utf-8') as file:
         for user in user_data:
+            if 'user_id' in user and 'username' in user:
+                user['user_id'] = encrypt_data(user['user_id'])
+                user['username'] = encrypt_data(user['username'])
             json.dump(user, file, ensure_ascii=False)
             file.write('\n')
 
@@ -103,8 +123,8 @@ def add_or_update_user(user_data, user_id, username, context: CallbackContext, t
                        time_of_birth=None, place_of_birth=None):
     user_found = False
     for user in user_data:
-        if isinstance(user, dict) and user['user_id'] == user_id:
-            user['username'] = username
+        if isinstance(user, dict) and decrypt_data(user['user_id']) == user_id:
+            user['username'] = encrypt_data(username)
             user['last_active'] = datetime.now().strftime('%d-%m-%Y')
             user['tokens_used'] = user.get('tokens_used', 0) + tokens_used
             if date_of_birth:
@@ -122,8 +142,8 @@ def add_or_update_user(user_data, user_id, username, context: CallbackContext, t
 
     if not user_found:
         new_user = {
-            'user_id': user_id,
-            'username': username,
+            'user_id': encrypt_data(user_id),
+            'username': encrypt_data(username),
             'registration_date': datetime.now().strftime('%d-%m-%Y'),  # Дата регистрации
             'last_active': datetime.now().strftime('%d-%m-%Y'),
             'tokens_used': tokens_used,
@@ -569,19 +589,26 @@ def send_openai_request(prompt: str, max_tokens: int = MAX_TOKENS) -> str:
     add_or_update_user(user_data, user_id, username, response_tokens_used)
 
 #Обработка команд
+async def check_subscription_and_handle_role(update: Update, context: CallbackContext, choice: str) -> None:
+    user_id = update.message.from_user.id
+    is_subscribed = await check_subscription_multiple(user_id, TELEGRAM_TOKEN, CHANNEL_IDS)
+    if not is_subscribed:
+        await update.message.reply_text("Вы не подписаны ни на 1 из каналов. Пожалуйста, подпишитесь на один из предложенных каналов, чтобы продолжить использование бота.")
+        return
+    await handle_role_selection(update, context, choice)
+
 
 async def tarot_command(update: Update, context: CallbackContext) -> None:
-    await handle_role_selection(update, context, 'tarot')
+    await check_subscription_and_handle_role(update, context, 'tarot')
 
 async def self_development_coach_command(update: Update, context: CallbackContext) -> None:
-    await handle_role_selection(update, context, 'self_development_coach')
-
+    await check_subscription_and_handle_role(update, context, 'self_development_coach')
 
 async def psychologist_command(update: Update, context: CallbackContext) -> None:
-    await handle_role_selection(update, context, 'psychologist')
+    await check_subscription_and_handle_role(update, context, 'psychologist')
 
 async def career_consultant_command(update: Update, context: CallbackContext) -> None:
-    await handle_role_selection(update, context, 'career_consultant')
+    await check_subscription_and_handle_role(update, context, 'career_consultant')
 
 
 async def handle_role_selection(update: Update, context: CallbackContext, choice: str) -> None:
